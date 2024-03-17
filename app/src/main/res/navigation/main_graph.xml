@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/registarStatsFragment">
+
+    <fragment
+        android:id="@+id/informacionFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.info.InformacionFragment"
+        android:label="fragment_informacion"
+        tools:layout="@layout/fragment_informacion" >
+        <action
+            android:id="@+id/action_informacionFragment_to_whatIsPadelFragment"
+            app:destination="@id/whatIsPadelFragment" />
+        <action
+            android:id="@+id/action_informacionFragment_to_whyAppFragment"
+            app:destination="@id/whyAppFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registarStatsFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.RegistarStatsFragment"
+        android:label="fragment_registar_stats"
+        tools:layout="@layout/fragment_registar_stats" />
+    <fragment
+        android:id="@+id/verStatsFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.VerStats.VerStatsFragment"
+        android:label="fragment_ver_stats"
+        tools:layout="@layout/fragment_ver_stats" />
+    <fragment
+        android:id="@+id/whatIsPadelFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.info.whatIsPadelFragment"
+        android:label="fragment_what_is_padel"
+        tools:layout="@layout/fragment_what_is_padel" />
+    <fragment
+        android:id="@+id/whyAppFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.info.whyAppFragment"
+        android:label="fragment_why_app"
+        tools:layout="@layout/fragment_why_app" />
+</navigation>

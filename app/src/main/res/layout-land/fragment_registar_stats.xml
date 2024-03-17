@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fondo_pantalla"
+    tools:context=".iu.PagPrincipal.RegistarStatsFragment">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="0dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/registrar_btnCierreSesion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:backgroundTint="@color/color_botones"
+                android:text="@string/CerrarSesion"
+                android:textColor="@color/color_letra_botones" />
+
+
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <!-- EditText para el email -->
+            <EditText
+                android:id="@+id/registrarStats_etCorreo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/edit_text_inicio"
+                android:hint="Escribe tu correo"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/item_letra_bottom" />
+
+            <!-- EditText para el compañero -->
+            <EditText
+                android:id="@+id/registrarStats_etCompañero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/edit_text_inicio"
+                android:hint="@string/Compañero"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/item_letra_bottom" />
+
+            <!-- EditText para el lugar de la instalación -->
+            <EditText
+                android:id="@+id/registrarStats_etLugar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/edit_text_inicio"
+                android:hint="@string/Lugar_de_la_instalación"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/item_letra_bottom" />
+
+            <!-- Spinner para seleccionar el resultado -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:background="@drawable/edit_text_inicio">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/Resultado"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/item_letra_bottom"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/registrarStats_spinner_resultado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:entries="@array/opciones_resultado"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/item_letra_bottom" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registrarStats_btnGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="50dp"
+            android:backgroundTint="@color/color_botones"
+            android:padding="16dp"
+            android:text="@string/Guardar"
+            android:textColor="@color/color_letra_botones" />
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</FrameLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fondo_pantalla"
+    tools:context=".iu.Inicio.BienvenidaActivity">
+
+    <TextView
+        android:id="@+id/Bienvenida_tvBienvenida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/Bienvenido"
+        android:textColor="@color/letra_bienvenida2"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/Bienvenida_ivFotoLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/Bienvenida_ivFotoLogo"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginVertical="20dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/Bienvenida_llBotones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Bienvenida_tvBienvenida" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/Bienvenida_llBotones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Bienvenida_ivFotoLogo">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Bienvenida_btnRegistrarse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:backgroundTint="@color/color_botones"
+            android:text="@string/Registrarse"
+            android:textColor="@color/color_letra_botones" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Bienvenida_btnIniciarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:backgroundTint="@color/color_botones"
+            android:text="@string/IniciarSesion"
+            android:textColor="@color/color_letra_botones" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

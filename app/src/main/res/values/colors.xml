@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bottom_logout_color">#F80202</color>
+
+    <!-- BottomNavegator -->
+    <color name="item_letra_bottom">#ACACAD</color>
+    <color name="fondo_bottom">#3A81E6</color>
+    <color name="letra_registro">#357CF3</color>
+    <color name="blue">#3675F4</color>
+    <color name="color_yellow">#FFFF00</color>
+    <color name="color_botones">#590701</color>
+    <color name="color_letra_botones">#FFFFFF</color>
+    <color name="color_fondo_pantalla">#CCA676</color>
+    <color name="letra_bienvenida">#5A3C3A</color>
+    <color name="letra_bienvenida2">#00114E</color>
+    <color name="fondo_navigationBar">#C1945B</color>
+    <color name="view_divider">#FFD180</color>
+    <color name="fondo_cvPartidos">#FF6E40</color>
+
+
+    <color name="win">#38FF00</color>
+    <color name="draw">#FFF300</color>
+    <color name="lose">#FF0000</color>
+
+</resources>

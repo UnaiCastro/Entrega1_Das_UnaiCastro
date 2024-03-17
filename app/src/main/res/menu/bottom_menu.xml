@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/registarStatsFragment"
+        android:title="Pon estadisticas"
+        android:icon="@drawable/ic_jugar">
+
+    </item>
+
+    <item
+        android:id="@+id/verStatsFragment"
+        android:title="Ver estadisticas"
+        android:icon="@drawable/ic_cosas_interesantes">
+
+    </item>
+
+    <item
+        android:id="@+id/informacionFragment"
+        android:title="Informacion"
+        android:icon="@drawable/ic_perfil">
+
+    </item>
+</menu>

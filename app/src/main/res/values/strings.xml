@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">InicioActivity</string>
+    <string name="Bienvenido">Bienvenido</string>
+    <string name="Registrarse">Registrarse</string>
+    <string name="IniciarSesion">Iniciar Sesion</string>
+    <string name="Escribe_tu_nombre">Escribe tu nombre</string>
+    <string name="Escribe_tu_correo">Escribe tu correo</string>
+    <string name="Escribe_tu_contraseña">Escribe tu contraseña</string>
+    <string name="Entra">Entra</string>
+    <string name="CerrarSesion">Cerrar Sesion</string>
+    <string name="Compañero">Compañero</string>
+    <string name="Lugar_de_la_instalación">¿Donde has jugado?</string>
+    <string name="Resultado">Resultado :</string>
+    <string name="Guardar">Guardar</string>
+    <string name="descripcionWhat">El pádel es un deporte de pelota muy popular en plena expansión con millones de practicantes en todo el mundo. Su origen se fija en México en los años 70 y su sistema de juego es muy similar al tenis, aunque con una pista de dimensiones mucho más reducidas rodeada de cuatro paredes.\n</string>
+    <string name="Volver">Volver</string>
+    <string name="descripcion_why">"Esta aplicacion se ha hecho con el proposito de que sea evaluado en la primera entrega de la asignatura de Desarrolo Avanzado de Software. La tematica de Padel fue implemnetado porque el creador de esta aplicacion es aficionado a este deporte. "</string>
+    <string name="infor_1CV">¿Por que se ha creado esta app?</string>
+    <string name="infor_2CV">¿Que es padel?</string>
+    <string name="infor_3CV">¿Quien lo ha hecho?</string>
+    <string name="infor_4CV">Ranking jugadores Padel</string>
+</resources>

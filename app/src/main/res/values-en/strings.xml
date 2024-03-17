@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InicioActivity</string>
+    <string name="Bienvenido">Welcome</string>
+    <string name="Registrarse">Sign In</string>
+    <string name="IniciarSesion">Log in</string>
+    <string name="Escribe_tu_nombre">Write your name</string>
+    <string name="Escribe_tu_correo">"Write your email "</string>
+    <string name="Escribe_tu_contraseña">"Enter your password "</string>
+    <string name="Entra">Next</string>
+    <string name="CerrarSesion">Sign Out</string>
+    <string name="Compañero">Partner</string>
+    <string name="Lugar_de_la_instalación">¿Where do you play?</string>
+    <string name="Resultado">Result :</string>
+    <string name="Guardar">Save</string>
+    <string name="descripcionWhat">"Paddle tennis is a very popular ball sport that is rapidly expanding with millions of players around the world. Its origin is set in Mexico in the 70s and its game system is very similar to tennis, although with a much smaller court surrounded by four walls. "</string>
+    <string name="Volver">Back</string>
+    <string name="descripcion_why">"This application has been made with the purpose of being evaluated in the first installment of the Advanced Software Development subject. The Padel theme was implemented because the creator of this application is a fan of this sport. "</string>
+    <string name="infor_1CV">"Why was this app created? "</string>
+    <string name="infor_2CV">¿What is Padel?</string>
+    <string name="infor_3CV">¿Who created the app?</string>
+    <string name="infor_4CV">Ranking top players</string>
+</resources>

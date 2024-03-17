@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".iu.MenuAPPActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Menu_btnBienvenida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bienvenida" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Menu_btnIniciarSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Iniciar Sesion" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Menu_btnRegistrarse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrarse" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Menu_btnPagPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pagina Principal" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
