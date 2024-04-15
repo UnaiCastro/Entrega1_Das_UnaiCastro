@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "21368335117",
+    "project_id": "das2024-d1f21",
+    "storage_bucket": "das2024-d1f21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21368335117:android:c56e403af6ec5150bf9e44",
+        "android_client_info": {
+          "package_name": "com.tfg.inicioactivity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBECGz2lfaOBmyQwMleu3cJ8oJwapVMsz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
