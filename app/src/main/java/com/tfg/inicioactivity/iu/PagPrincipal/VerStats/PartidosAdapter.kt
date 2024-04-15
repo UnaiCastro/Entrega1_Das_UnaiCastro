@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.data.Partido
 
-class PartidosAdapter(private val partidos: MutableList<Partido>) :
+class PartidosAdapter(var partidos: MutableList<Partido>) :
     RecyclerView.Adapter<PartidoViewHolder>() {
     //  Adaptador para coger la informacion de la clase partido y printearla
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartidoViewHolder {

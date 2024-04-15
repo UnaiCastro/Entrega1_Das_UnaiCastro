@@ -10,7 +10,8 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.tfg.inicioactivity.data.Partido
 import com.tfg.inicioactivity.databinding.FragmentVerStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
@@ -20,6 +21,9 @@ class VerStatsFragment : Fragment() {
 
     private var _binding: FragmentVerStatsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
+    private lateinit var partidoAdapter: PartidosAdapter
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,14 +40,19 @@ class VerStatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding.verStatsRvPartidos
-        val partidos: MutableList<Partido> = obtenerPartidosDesdeBaseDeDatos()
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = PartidosAdapter(partidos)
+        db = FirebaseFirestore.getInstance()
+
+        val rvPartidos = binding.verStatsRvPartidos
+        rvPartidos.layoutManager = LinearLayoutManager(requireContext())
+        partidoAdapter = PartidosAdapter(mutableListOf())
+        rvPartidos.adapter = partidoAdapter
+        obtenerPartidosDesdeBaseDeDatos()
 
         val button = binding.verStatsBtnCierreSesion
         button.setOnClickListener {
             // Crear un Intent para abrir LoginActivity
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
             val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
 
             // Iniciar la actividad usando el Intent
@@ -63,8 +72,42 @@ class VerStatsFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    private fun obtenerPartidosDesdeBaseDeDatos(): MutableList<Partido> { //Funcion que obtiene todos los partidos que tengo en la base de datos
-        return mutableListOf()
+    private fun obtenerPartidosDesdeBaseDeDatos() { //Funcion que obtiene todos los partidos que tengo en la base de datos
+        db = FirebaseFirestore.getInstance()
+        db.collection("partidos")
+            .get()
+            .addOnSuccessListener { result ->
+                val partidosList = mutableListOf<Partido>()
+                for (document in result) {
+                    val id = document.id
+                    println(id)
+
+                    val lugar = document.data["lugar"].toString()
+                    val companero = document.data["nombreCompanero"].toString()
+                    val resultado = document.data["resultado"].toString()
+                    val usuario = document.data["usuario"].toString()
+
+                    val partido = Partido(
+                        resultado,
+                        usuario,
+                        companero,
+                        lugar
+                    )
+
+                    println(partido)
+                    partidosList.add(partido)
+                }
+
+                partidoAdapter.apply {
+                    partidos = partidosList
+                    notifyDataSetChanged()
+                }
+
+            }
+            .addOnFailureListener { e ->
+                Log.e("BUscarPartido", "${e.message}")
+
+            }
     }
 
 

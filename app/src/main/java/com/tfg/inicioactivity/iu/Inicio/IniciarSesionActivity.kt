@@ -1,10 +1,9 @@
 package com.tfg.inicioactivity.iu.Inicio
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.tfg.inicioactivity.databinding.ActivityIniciarSesionBinding
 import com.tfg.inicioactivity.iu.PagPrincipal.MainActivity
 import java.security.MessageDigest
@@ -12,6 +11,7 @@ import java.security.MessageDigest
 class IniciarSesionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIniciarSesionBinding
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,31 +28,27 @@ class IniciarSesionActivity : AppCompatActivity() {
 
     private fun initListener() {
         val btn_IniciarSesion = binding.IniciarSesionBtnlogin
+
         //Lo que hace cuando se pulsa el boton iniciar sesion
         btn_IniciarSesion.setOnClickListener {
-
-            Log.i("PruebaBundle", "Estoy antes del partidos de ejemplo")
-            val estaRegistrado =
-                mirarSiEstaRegistrado()//Si no devuelve null significa que el correo que se ha metido es valido
-            if (estaRegistrado != null) {
-                Log.i("PruebaBundle", "$estaRegistrado")
-                val i = Intent(this, MainActivity::class.java)
-                startActivity(i)
-            } else {
-                AlertDialog.Builder(this)
-                    .setMessage("No coincide el correo o la contraseña")
-                    .setPositiveButton("Aceptar", null)
-                    .show()
+            val contrasenaV = binding.IniciarSesionEtPassword.text.toString()
+            auth = FirebaseAuth.getInstance()
+            auth.signInWithEmailAndPassword(
+                binding.IniciarSesionEtEmail.text.toString(),
+                contrasenaV
+            ).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    navegacion()
+                }
             }
         }
     }
 
-    private fun mirarSiEstaRegistrado(): String? { //Mira si existe el correo puesto y si coincide la contraseña
-        val nombreUsuario: String?
-        val email = binding.IniciarSesionEtEmail.text.toString().lowercase()
-        val contraseña = binding.IniciarSesionEtPassword.text.toString()
-        return true.toString()
+    private fun navegacion() {
+        val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
     }
+
 
     private fun hashString(input: String): String { //Metodo proporcionado por chatGPT para hashear la contraseña
         val HEX_CHARS = "0123456789ABCDEF"

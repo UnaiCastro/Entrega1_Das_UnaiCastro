@@ -11,6 +11,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.tfg.inicioactivity.data.Partido
 import com.tfg.inicioactivity.databinding.FragmentRegistarStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
 
@@ -18,6 +23,9 @@ import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
 class RegistarStatsFragment : Fragment() {
 
     private var _binding: FragmentRegistarStatsBinding? = null
+    private lateinit var auth:FirebaseAuth
+    private lateinit var db:FirebaseFirestore
+
     private val binding get() = _binding!!
 
 
@@ -40,29 +48,24 @@ class RegistarStatsFragment : Fragment() {
         // Establecer un OnClickListener para el botón
         button.setOnClickListener {
             // Crear un Intent para abrir LoginActivity
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
             val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
             // Iniciar la actividad usando el Intent
             startActivity(intent)
         }
 
         btn_guardar.setOnClickListener {
-            val et_email = binding.registrarStatsEtCorreo.text.toString().lowercase()
             val et_compañero = binding.registrarStatsEtCompaEro.text.toString()
             val et_lugar = binding.registrarStatsEtLugar.text.toString()
             val spinner_resultado = binding.registrarStatsSpinnerResultado.selectedItem.toString()
-            //sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
-            //this.emailUsuario= sharedViewModel.toString()
-            //this.emailUsuario= arguments?.getString("EMAIL").toString()
-
-
-            //Log.i("et_usuario","$emailUsuario")
             Log.i("et_compañero", "$et_compañero")
             Log.i("et_lugar", "$et_lugar")
             Log.i("spinner_resultado", "$spinner_resultado")
 
 
 
-            if (et_email.isEmpty() || et_compañero.isEmpty() || spinner_resultado.isEmpty() || et_lugar.isEmpty()) {
+            if (et_compañero.isEmpty() || spinner_resultado.isEmpty() || et_lugar.isEmpty()) {
                 // Mostrar un mensaje de error indicando que todos los campos son obligatorios
                 AlertDialog.Builder(context)
                     .setMessage("Todos los campos son obligatorios")
@@ -71,17 +74,7 @@ class RegistarStatsFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (correoRegistrado(et_email) == null) {
-                AlertDialog.Builder(context)
-                    .setMessage("Correo no valido")
-                    .setPositiveButton("Aceptar", null)
-                    .show()
-                return@setOnClickListener
-            }
-
-            val emailUsuario = correoRegistrado(et_email).toString()
-            Log.i("PruebaBundle", "$emailUsuario")
-            insertarPartido(emailUsuario, et_compañero, spinner_resultado, et_lugar)
+            insertarPartido(et_compañero, spinner_resultado, et_lugar)
 
 
         }
@@ -97,20 +90,40 @@ class RegistarStatsFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    private fun correoRegistrado(etEmail: String): String? {
-
-
-        return true.toString()
+    private fun insertarPartido(etCompañero: String, spinnerResultado: String, etLugar: String) {
+        auth = FirebaseAuth.getInstance()
+        val nombre = auth.currentUser!!.uid
+        db = FirebaseFirestore.getInstance()
+        val partido = Partido(spinnerResultado,nombre,etCompañero,etLugar)
+        db.collection("partidos").add(partido).addOnSuccessListener {
+            guardarPartidoenJugador(it.id)
+        }
     }
 
-    private fun insertarPartido(
-        emailUsuario: String,
-        nombreCompanero: String,
-        resultado: String,
-        lugar: String
-    ) {
+    private fun guardarPartidoenJugador(id: String){
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val userID=auth.currentUser!!.uid
+        db.collection("users").whereEqualTo("userId", userID).get().addOnSuccessListener {
+            if (!it.isEmpty){
+                val documentSnapshot = it.documents.first()
+                val partidos = documentSnapshot.get("partidos") as ArrayList<String>
+                partidos.add(id)
 
+                val data = hashMapOf("partidos" to partidos)
+                documentSnapshot.reference.set(data, SetOptions.merge()).addOnSuccessListener {
+                    Log.d(
+                        "CrearPartidoUsuario",
+                        "Partido agregado correctamente al usuario $userID"
+                    )
+                }.addOnFailureListener { e ->
+                    Log.e("CrearPartidoUsuario", "Error al agregar partido al usuario $userID: $e")
+                }
+            }
+        }
     }
+
+
 }
 
 

@@ -2,18 +2,19 @@ package com.tfg.inicioactivity.iu.Inicio
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.util.Patterns
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.tfg.inicioactivity.R
+import com.tfg.inicioactivity.data.Usuario
 import com.tfg.inicioactivity.databinding.ActivityRegistroBinding
 import java.security.MessageDigest
 
@@ -22,6 +23,7 @@ class RegistroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroBinding
     private lateinit var auth:FirebaseAuth
+    private lateinit var db:FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +58,37 @@ class RegistroActivity : AppCompatActivity() {
             if (it.isSuccessful){
                 activarNotificacion()
                 cambioPantalla()
+                crearUsuarioEnFirestore()
             }
+        }.addOnFailureListener { e->
+            Log.e("Registro","${e.message}")
+
         }
 
 
+    }
+
+    private fun crearUsuarioEnFirestore() {
+        db= FirebaseFirestore.getInstance()
+        val nombre = binding.RegistroEtNom.text.toString()
+        val correo = binding.RegistroEtEmail.text.toString()
+        val contrasenaV = binding.RegistroEtContraseA.text.toString()
+        val contrasena2 = hashString(contrasenaV)
+        auth = FirebaseAuth.getInstance()
+        val usuarioID = auth.currentUser?.uid
+        val user = Usuario (
+            userID = usuarioID.toString(),
+            nombre = nombre,
+            correo = correo,
+            contrasena = contrasena2,
+            partidos = mutableListOf()
+        ).toMap()
+
+        db.collection("users").add(user).addOnSuccessListener {
+            Log.i("Registro","Creado usuario $usuarioID")
+        }.addOnFailureListener {
+            Log.e("Registro","Creacion de Usuario $usuarioID fallida ${it.message}")
+        }
     }
 
     private fun activarNotificacion() {//Funcion para mostrar notificacion

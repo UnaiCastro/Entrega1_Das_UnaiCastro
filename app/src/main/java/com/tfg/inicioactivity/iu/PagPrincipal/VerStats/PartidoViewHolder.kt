@@ -24,7 +24,7 @@ class PartidoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { //
         if (partido.resultado == "Empate") {
             binding.CVpartidoResultado.setTextColor(binding.CVpartidoResultado.context.getColor(R.color.draw))
         }
-        binding.CVpartidoUsuario.text = partido.emailUsuario
+
         binding.CVpartidoCompaEro.text = partido.nombreCompanero
         binding.CVpartidoLugar.text = partido.lugar
     }

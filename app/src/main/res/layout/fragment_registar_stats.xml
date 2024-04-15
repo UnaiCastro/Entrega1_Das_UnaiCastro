@@ -47,19 +47,6 @@
             android:layout_marginVertical="10dp"
             android:orientation="vertical">
 
-            <!-- EditText para el email -->
-            <EditText
-                android:id="@+id/registrarStats_etCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:background="@drawable/edit_text_inicio"
-                android:hint="Escribe tu correo"
-                android:inputType="textEmailAddress"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/item_letra_bottom" />
-
             <!-- EditText para el compañero -->
             <EditText
                 android:id="@+id/registrarStats_etCompañero"

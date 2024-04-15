@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.databinding.FragmentInformacionBinding
 import com.tfg.inicioactivity.databinding.FragmentVerStatsBinding
@@ -23,6 +24,7 @@ class InformacionFragment : Fragment() {
 
     private var _binding: FragmentInformacionBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth:FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -130,6 +132,8 @@ class InformacionFragment : Fragment() {
         val button = view.findViewById<AppCompatButton>(R.id.informacion_btnCierresesion)
         button.setOnClickListener {//Iremos de nuevo a la pantalla login
             // Crear un Intent para abrir LoginActivity
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
             val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
             // Iniciar la actividad usando el Intent
             startActivity(intent)
