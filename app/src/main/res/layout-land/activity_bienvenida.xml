@@ -8,7 +8,7 @@
     tools:context=".iu.Inicio.BienvenidaActivity">
 
     <TextView
-        android:id="@+id/Bienvenida_tvBienvenida"
+        android:id="@+id/BienvenidaTVBienvenida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

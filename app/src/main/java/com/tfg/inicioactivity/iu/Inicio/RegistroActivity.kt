@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import com.google.firebase.auth.FirebaseAuth
 import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.databinding.ActivityRegistroBinding
 import java.security.MessageDigest
@@ -20,6 +21,7 @@ import java.security.MessageDigest
 class RegistroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroBinding
+    private lateinit var auth:FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +36,7 @@ class RegistroActivity : AppCompatActivity() {
     private fun initListener() {
         val btn_Registrarse = binding.REgistroBtnRegistro
         btn_Registrarse.setOnClickListener {
-            val et_nombre = binding.RegistroEtNom
-            if (et_nombre.toString().isNotEmpty()) {
                 registrarEnBaseDeDatos()
-            }
         }
     }
 
@@ -52,9 +51,18 @@ class RegistroActivity : AppCompatActivity() {
             return
         }
 
+        auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(correo,contraseña).addOnCompleteListener {
+            if (it.isSuccessful){
+                activarNotificacion()
+                cambioPantalla()
+            }
+        }
+
+
     }
 
-    private fun onClickGuardar() {//Funcion para mostrar notificacion
+    private fun activarNotificacion() {//Funcion para mostrar notificacion
         val et_nombre = binding.RegistroEtNom
         val titulo = "Registro correcto"
         val contenido = "${et_nombre.text} bienvenido a PaLaStats"
@@ -105,10 +113,6 @@ class RegistroActivity : AppCompatActivity() {
             result.append(HEX_CHARS[i and 0x0f])
         }
         return result.toString()
-    }
-
-    private fun correoYaRegistrado(correo: String): Boolean { //Mira si el correo que lo pasamos esta registrado o no y devuelve un boolean dependiendo
-       return true
     }
 
 }
