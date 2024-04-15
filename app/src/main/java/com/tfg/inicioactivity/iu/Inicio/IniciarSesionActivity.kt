@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.tfg.inicioactivity.data.DatabaseHelper
 import com.tfg.inicioactivity.databinding.ActivityIniciarSesionBinding
 import com.tfg.inicioactivity.iu.PagPrincipal.MainActivity
 import java.security.MessageDigest
@@ -49,45 +48,10 @@ class IniciarSesionActivity : AppCompatActivity() {
     }
 
     private fun mirarSiEstaRegistrado(): String? { //Mira si existe el correo puesto y si coincide la contraseña
-        val dbHelper = DatabaseHelper(this)
-        val db = dbHelper.readableDatabase
         val nombreUsuario: String?
         val email = binding.IniciarSesionEtEmail.text.toString().lowercase()
         val contraseña = binding.IniciarSesionEtPassword.text.toString()
-
-        val cursor = db.query(
-            "Usuario",
-            arrayOf("nombre", "contraseña"),  // Solo necesitamos el nombre del usuario
-            "email = ?",        // Filtro por correo electrónico
-            arrayOf(email),    // Argumento del filtro
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            // Obtener el nombre si el cursor no está vacío
-            val contraseñaHasheadaEncontrada = cursor.getString(cursor.getColumnIndex("contraseña"))
-
-
-            // Hashear la contraseña proporcionada por el usuario para compararla con la almacenada en la base de datos
-            val contraseñaHasheadaProporcionada = hashString(contraseña)
-
-
-            if (contraseñaHasheadaProporcionada == contraseñaHasheadaEncontrada) { // Verificar si la contraseña proporcionada coincide con la almacenada en la base de datos
-                nombreUsuario = cursor.getString(cursor.getColumnIndex("nombre")).toString()
-            } else {
-                nombreUsuario = null // La contraseña proporcionada no coincide
-            }
-
-        } else {
-            nombreUsuario = null // No se encontró ningún usuario con ese correo electrónico
-        }
-
-        cursor.close()
-        db.close()
-
-        return nombreUsuario
+        return true.toString()
     }
 
     private fun hashString(input: String): String { //Metodo proporcionado por chatGPT para hashear la contraseña

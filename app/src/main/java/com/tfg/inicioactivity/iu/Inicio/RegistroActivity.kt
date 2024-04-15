@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.tfg.inicioactivity.R
-import com.tfg.inicioactivity.data.DatabaseHelper
 import com.tfg.inicioactivity.databinding.ActivityRegistroBinding
 import java.security.MessageDigest
 
@@ -43,8 +42,6 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun registrarEnBaseDeDatos() {
-        val dbHelper = DatabaseHelper(this)
-        val db = dbHelper.writableDatabase
         val correo = binding.RegistroEtEmail.text.toString()
         val nombre = binding.RegistroEtNom.text.toString()
         val contraseña = binding.RegistroEtContraseA.text.toString()
@@ -55,46 +52,6 @@ class RegistroActivity : AppCompatActivity() {
             return
         }
 
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(correo)
-                .matches()
-        ) {// Verificar el formato del correo electrónico
-            Toast.makeText(
-                this,
-                "Por favor, introduce un correo electrónico válido",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-
-        if (correoYaRegistrado(correo)) {// Verificar si el correo ya está registrado
-            Toast.makeText(this, "Este correo electrónico ya está registrado", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
-
-        val contraseñaHasheada = hashString(contraseña) // Hashear la contraseña
-        // Insertar en la base de datos
-        val values = ContentValues().apply {
-            put("email", correo)
-            put("nombre", nombre)
-            put("contraseña", contraseñaHasheada)
-
-        }
-        val newRowId = db.insert("Usuario", null, values)
-        if (newRowId == -1L) {
-            // Error al insertar en la base de datos
-            Toast.makeText(this, "Error al registrar en la base de datos", Toast.LENGTH_SHORT)
-                .show()
-        } else {
-            // Registro exitoso
-            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-            onClickGuardar()
-            cambioPantalla()
-        }
-
-        db.close()
     }
 
     private fun onClickGuardar() {//Funcion para mostrar notificacion
@@ -151,29 +108,7 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun correoYaRegistrado(correo: String): Boolean { //Mira si el correo que lo pasamos esta registrado o no y devuelve un boolean dependiendo
-        val dbHelper = DatabaseHelper(this)
-        val db = dbHelper.readableDatabase
-
-        val projection = arrayOf("email")
-        val selection = "email = ?"
-        val selectionArgs = arrayOf(correo)
-
-        val cursor: Cursor = db.query(
-            "Usuario",
-            projection,
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-
-        val correoExiste = cursor.count > 0
-
-        cursor.close()
-        db.close()
-
-        return correoExiste
+       return true
     }
 
 }

@@ -11,7 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tfg.inicioactivity.data.DatabaseHelper
 import com.tfg.inicioactivity.data.Partido
 import com.tfg.inicioactivity.databinding.FragmentVerStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
@@ -65,40 +64,7 @@ class VerStatsFragment : Fragment() {
     }
 
     private fun obtenerPartidosDesdeBaseDeDatos(): MutableList<Partido> { //Funcion que obtiene todos los partidos que tengo en la base de datos
-        val dbHelper = DatabaseHelper(requireContext())
-        val partidos = mutableListOf<Partido>()
-
-        val db = dbHelper.readableDatabase
-        return try {
-            val projection =
-                arrayOf("id", "resultado", "email_jugador", "nombre_compañero", "lugar")
-            val cursor = db.query("Partidos", projection, null, null, null, null, null)
-
-            with(cursor) {
-                while (moveToNext()) {
-                    val id = getInt(getColumnIndexOrThrow("id"))
-                    val resultado = getString(getColumnIndexOrThrow("resultado"))
-                    val emailUsuario = getString(getColumnIndexOrThrow("email_jugador"))
-                    val nombreCompanero = getString(getColumnIndexOrThrow("nombre_compañero"))
-                    val lugar = getString(getColumnIndexOrThrow("lugar"))
-
-                    val partido = Partido(id, resultado, emailUsuario, nombreCompanero, lugar)
-                    partidos.add(partido)
-                }
-            }
-            cursor.close()
-            partidos // Devolver la lista de partidos obtenida exitosamente
-        } catch (e: Exception) {
-            Log.e(
-                "Database",
-                "Error al obtener los partidos desde la base de datos: ${e.message}"
-            )// Manejar el error
-            mutableListOf() // Devolver una lista vacía en caso de error
-        }
-        val projection = arrayOf("id", "resultado", "email_Usuario", "nombre_compañero", "lugar")
-        val cursor = db.query("Partidos", projection, null, null, null, null, null)
-
-
+        return mutableListOf()
     }
 
 

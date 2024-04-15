@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import com.tfg.inicioactivity.data.DatabaseHelper
 import com.tfg.inicioactivity.databinding.FragmentRegistarStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
 
@@ -20,8 +19,6 @@ class RegistarStatsFragment : Fragment() {
 
     private var _binding: FragmentRegistarStatsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var dbHelper: DatabaseHelper
-    //private lateinit var emailUsuario: String
 
 
     override fun onCreateView(
@@ -29,14 +26,7 @@ class RegistarStatsFragment : Fragment() {
         savedInstanceState: Bundle?
 
 
-    ): View? {
-        /*val args = this.arguments
-        Log.i("Holita2345","$args")
-        if (args != null) {
-            val valorRecibido = args.getString("EMAIL")
-            emailUsuario= valorRecibido.toString()
-        }*/
-
+    ): View {
         _binding = FragmentRegistarStatsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -47,9 +37,6 @@ class RegistarStatsFragment : Fragment() {
 
         val button = binding.registrarBtnCierreSesion
         val btn_guardar = binding.registrarStatsBtnGuardar
-        dbHelper = DatabaseHelper(requireContext())
-
-
         // Establecer un OnClickListener para el botón
         button.setOnClickListener {
             // Crear un Intent para abrir LoginActivity
@@ -111,31 +98,9 @@ class RegistarStatsFragment : Fragment() {
     }
 
     private fun correoRegistrado(etEmail: String): String? {
-        val dbHelper =
-            DatabaseHelper(requireContext()) // Suponiendo que tengas una referencia al contexto
-        val db = dbHelper.readableDatabase
-        val nombreUsuario: String?
 
-        val cursor = db.query(
-            "Usuario",
-            arrayOf("nombre"),  // Solo necesitamos el nombre del usuario
-            "email = ?",        // Filtro por correo electrónico
-            arrayOf(etEmail),    // Argumento del filtro
-            null,
-            null,
-            null
-        )
 
-        nombreUsuario = if (cursor.moveToFirst()) {
-            cursor.getString(cursor.getColumnIndex("nombre")) // Obtener el nombre si el cursor no está vacío
-        } else {
-            null // No se encontró ningún usuario con ese correo electrónico
-        }
-
-        cursor.close()
-        db.close()
-
-        return nombreUsuario
+        return true.toString()
     }
 
     private fun insertarPartido(
@@ -144,15 +109,7 @@ class RegistarStatsFragment : Fragment() {
         resultado: String,
         lugar: String
     ) {
-        val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put("resultado", resultado)
-            put("email_jugador", emailUsuario)
-            put("nombre_compañero", nombreCompanero)
-            put("lugar", lugar)
-        }
 
-        val newRowId = db.insert("Partidos", null, values)
     }
 }
 

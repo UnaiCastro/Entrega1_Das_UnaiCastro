@@ -3,13 +3,11 @@ package com.tfg.inicioactivity.iu.Inicio
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tfg.inicioactivity.data.DatabaseHelper
 import com.tfg.inicioactivity.databinding.ActivityBienvenidaBinding
 
 class BienvenidaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBienvenidaBinding
-    private lateinit var dbHelper: DatabaseHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +36,5 @@ class BienvenidaActivity : AppCompatActivity() {
 
     }
 
-    /*private fun borrarTodasLasTablas() {
-        dbHelper = DatabaseHelper(this)
-        dbHelper.borrarTodasLasTablas()
-        Toast.makeText(this, "Todas las tablas han sido eliminadas", Toast.LENGTH_SHORT).show()
-    }*/
 
 }
