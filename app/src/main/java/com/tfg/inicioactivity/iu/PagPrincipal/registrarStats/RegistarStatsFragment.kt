@@ -1,26 +1,23 @@
-package com.tfg.inicioactivity.iu.PagPrincipal
+package com.tfg.inicioactivity.iu.PagPrincipal.registrarStats
 
-import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import com.tfg.inicioactivity.data.Partido
 import com.tfg.inicioactivity.databinding.FragmentRegistarStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
+import kotlinx.coroutines.launch
 
 
-class RegistarStatsFragment : Fragment() {
+/*class RegistarStatsFragment : Fragment() {
 
     private var _binding: FragmentRegistarStatsBinding? = null
     private lateinit var auth:FirebaseAuth
@@ -108,7 +105,8 @@ class RegistarStatsFragment : Fragment() {
         val builder = AlertDialog.Builder(context)
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
-                // You can add any action you want when the user clicks OK
+                binding.registrarStatsEtLugar.text.clear()
+                binding.registrarStatsEtCompaEro.text.clear()
                 dialog.dismiss()
             }
         builder.create().show()
@@ -138,6 +136,116 @@ class RegistarStatsFragment : Fragment() {
     }
 
 
+}*/
+
+/*class RegistarStatsFragment : Fragment() {
+
+    private var _binding: FragmentRegistarStatsBinding? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var presenter: RegistarStatsPresenter
+
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRegistarStatsBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter = RegistarStatsPresenter()
+
+        val button = binding.registrarBtnCierreSesion
+        val btn_guardar = binding.registrarStatsBtnGuardar
+
+        button.setOnClickListener {
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
+            startActivity(intent)
+        }
+
+        btn_guardar.setOnClickListener {
+            val companero = binding.registrarStatsEtCompaEro.text.toString()
+            val lugar = binding.registrarStatsEtLugar.text.toString()
+            val resultado = binding.registrarStatsSpinnerResultado.selectedItem.toString()
+
+            // Llamar a guardarPartido dentro de un scope de coroutine
+            viewLifecycleOwner.lifecycleScope.launch {
+                presenter.guardarPartido(companero, lugar, resultado)
+            }
+        }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(
+                    requireContext(), "Por favor, cierre sesión",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}*/
+
+class RegistarStatsFragment : Fragment() {
+
+    private var _binding: FragmentRegistarStatsBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: RegistarStatsViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRegistarStatsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val button = binding.registrarBtnCierreSesion
+        val btn_guardar = binding.registrarStatsBtnGuardar
+
+        button.setOnClickListener {
+            val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
+            startActivity(intent)
+        }
+
+        btn_guardar.setOnClickListener {
+            val companero = binding.registrarStatsEtCompaEro.text.toString()
+            val lugar = binding.registrarStatsEtLugar.text.toString()
+            val resultado = binding.registrarStatsSpinnerResultado.selectedItem.toString()
+
+            viewModel.guardarPartido(companero, lugar, resultado)
+        }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(
+                    requireContext(), "Por favor, cierre sesión",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 

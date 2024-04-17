@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/registarStatsFragment"
-        android:name="com.tfg.inicioactivity.iu.PagPrincipal.RegistarStatsFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.registrarStats.RegistarStatsFragment"
         android:label="fragment_registar_stats"
         tools:layout="@layout/fragment_registar_stats" />
     <fragment

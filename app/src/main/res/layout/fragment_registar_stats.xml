@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fondo_pantalla"
-    tools:context=".iu.PagPrincipal.RegistarStatsFragment">
+    tools:context=".iu.PagPrincipal.registrarStats.RegistarStatsFragment">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat

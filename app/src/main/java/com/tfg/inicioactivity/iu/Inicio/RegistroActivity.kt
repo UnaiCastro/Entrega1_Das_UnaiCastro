@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tfg.inicioactivity.R
-import com.tfg.inicioactivity.data.Usuario
+import com.tfg.inicioactivity.data.model.Usuario
 import com.tfg.inicioactivity.databinding.ActivityRegistroBinding
 import java.security.MessageDigest
 

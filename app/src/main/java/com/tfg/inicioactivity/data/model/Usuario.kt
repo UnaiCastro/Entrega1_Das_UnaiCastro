@@ -1,4 +1,4 @@
-package com.tfg.inicioactivity.data
+package com.tfg.inicioactivity.data.model
 
 data class Usuario(
     val userID: String,

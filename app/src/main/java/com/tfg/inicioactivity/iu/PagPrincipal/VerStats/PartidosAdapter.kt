@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tfg.inicioactivity.R
-import com.tfg.inicioactivity.data.Partido
+import com.tfg.inicioactivity.data.model.Partido
 
 class PartidosAdapter(var partidos: MutableList<Partido>) :
     RecyclerView.Adapter<PartidoViewHolder>() {

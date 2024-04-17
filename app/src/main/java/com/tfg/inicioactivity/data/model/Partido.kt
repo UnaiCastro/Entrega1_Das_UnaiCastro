@@ -1,4 +1,4 @@
-package com.tfg.inicioactivity.data
+package com.tfg.inicioactivity.data.model
 
 data class Partido(
     val resultado: String,

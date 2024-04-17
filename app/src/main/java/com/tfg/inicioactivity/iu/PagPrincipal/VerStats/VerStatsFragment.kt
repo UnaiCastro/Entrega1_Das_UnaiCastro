@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.tfg.inicioactivity.data.Partido
+import com.tfg.inicioactivity.data.model.Partido
 import com.tfg.inicioactivity.databinding.FragmentVerStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
 

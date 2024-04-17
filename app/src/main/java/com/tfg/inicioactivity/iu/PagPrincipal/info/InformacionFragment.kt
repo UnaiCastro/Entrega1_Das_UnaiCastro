@@ -59,25 +59,25 @@ class InformacionFragment : Fragment() {
     private fun initListener(view: View) {
 
         //Navegacion del CarView del why
-        val cardViewWhyFragment = view.findViewById<CardView>(R.id.informacion_cvWhyapp)
+        val cardViewWhyFragment = binding.informacionCvWhyapp
         cardViewWhyFragment.setOnClickListener {
             // Navegar a WhyFragment utilizando la acción
             findNavController().navigate(R.id.action_informacionFragment_to_whyAppFragment)
         }
 
         //Navegacion del CarView del what
-        val cardViewWhatFragment = view.findViewById<CardView>(R.id.informacion_cvWhatispadel)
+        val cardViewWhatFragment = binding.informacionCvWhatispadel
         cardViewWhatFragment.setOnClickListener {
             // Navegar a WhyFragment utilizando la acción
             findNavController().navigate(R.id.action_informacionFragment_to_whatIsPadelFragment)
         }
 
         //Navegacion del CarView del who
-        val cardViewWhoFragment = view.findViewById<CardView>(R.id.informacion_cvWhocreateapp)
+        val cardViewWhoFragment = binding.informacionCvWhocreateapp
         cardViewWhoFragment.setOnClickListener {
 
             //Dialogo para avisar al usuario que se le llevara a un sitio web
-            AlertDialog.Builder(view.context)
+            AlertDialog.Builder(context)
                 .setMessage("¿Quieres ir al buscador?")
                 .setPositiveButton("Aceptar") { _, _ ->
                     // Crear un Intent para abrir el enlace de LinkedIn
@@ -86,11 +86,7 @@ class InformacionFragment : Fragment() {
                         Uri.parse("https://www.linkedin.com/in/unai-castro-3458132a6/")
                     )
                     startActivity(intent)
-                    // Comprobar si hay alguna actividad que pueda manejar este Intent
-                    /* if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                         // Abrir el enlace en un navegador web
-                         startActivity(intent)
-                     }*/
+
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     // Cerrar el diálogo
@@ -102,11 +98,11 @@ class InformacionFragment : Fragment() {
 
 
         //Navegacion del CarView del ranking
-        val cardViewRankingFragment = view.findViewById<CardView>(R.id.informacion_cvRankingURL)
+        val cardViewRankingFragment = binding.informacionCvRankingURL
         cardViewRankingFragment.setOnClickListener {
 
             //Dialogo para avisar al usuario que le llevamos a un sitio web
-            AlertDialog.Builder(view.context)
+            AlertDialog.Builder(context)
                 .setMessage("¿Quieres ir al buscador?")
                 .setPositiveButton("Aceptar") { _, _ ->
                     // Crear un Intent para abrir el enlace de LinkedIn
@@ -115,11 +111,7 @@ class InformacionFragment : Fragment() {
                         Uri.parse("https://www.padelfip.com/es/ranking-masculino/")
                     )
                     startActivity(intent)
-                    // Comprobar si hay alguna actividad que pueda manejar este Intent
-                    if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                        // Abrir el enlace en un navegador web
-                        startActivity(intent)
-                    }
+
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     // Cerrar el diálogo
@@ -129,7 +121,7 @@ class InformacionFragment : Fragment() {
         }
 
         // Establecer un OnClickListener para el botón
-        val button = view.findViewById<AppCompatButton>(R.id.informacion_btnCierresesion)
+        val button = binding.informacionBtnCierresesion
         button.setOnClickListener {//Iremos de nuevo a la pantalla login
             // Crear un Intent para abrir LoginActivity
             auth = FirebaseAuth.getInstance()
