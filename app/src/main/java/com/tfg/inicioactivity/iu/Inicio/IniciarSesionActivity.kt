@@ -2,6 +2,7 @@ package com.tfg.inicioactivity.iu.Inicio
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.tfg.inicioactivity.databinding.ActivityIniciarSesionBinding
@@ -40,8 +41,20 @@ class IniciarSesionActivity : AppCompatActivity() {
                 if (it.isSuccessful) {
                     navegacion()
                 }
+            }.addOnFailureListener { e ->
+                mostrarDialogo(e.message)
             }
         }
+    }
+
+    private fun mostrarDialogo(message: String?) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                // You can add any action you want when the user clicks OK
+                dialog.dismiss()
+            }
+        builder.create().show()
     }
 
     private fun navegacion() {

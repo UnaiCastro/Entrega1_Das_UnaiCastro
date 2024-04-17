@@ -7,12 +7,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.data.Usuario
 import com.tfg.inicioactivity.databinding.ActivityRegistroBinding
@@ -45,27 +45,38 @@ class RegistroActivity : AppCompatActivity() {
     private fun registrarEnBaseDeDatos() {
         val correo = binding.RegistroEtEmail.text.toString()
         val nombre = binding.RegistroEtNom.text.toString()
-        val contraseña = binding.RegistroEtContraseA.text.toString()
+        val contrasena = binding.RegistroEtContraseA.text.toString()
 
 
-        if (correo.isEmpty() || nombre.isEmpty() || contraseña.isEmpty()) {// Verificar si todos los campos estan escritos
+        if (correo.isEmpty() || nombre.isEmpty() || contrasena.isEmpty()) {// Verificar si todos los campos estan escritos
             Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             return
         }
 
         auth = FirebaseAuth.getInstance()
-        auth.createUserWithEmailAndPassword(correo,contraseña).addOnCompleteListener {
+        auth.createUserWithEmailAndPassword(correo,contrasena).addOnCompleteListener {
             if (it.isSuccessful){
                 activarNotificacion()
                 cambioPantalla()
                 crearUsuarioEnFirestore()
             }
         }.addOnFailureListener { e->
+            mostrarDialogo(e.message)
             Log.e("Registro","${e.message}")
 
         }
 
 
+    }
+
+    private fun mostrarDialogo(message: String?) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                // You can add any action you want when the user clicks OK
+                dialog.dismiss()
+            }
+        builder.create().show()
     }
 
     private fun crearUsuarioEnFirestore() {

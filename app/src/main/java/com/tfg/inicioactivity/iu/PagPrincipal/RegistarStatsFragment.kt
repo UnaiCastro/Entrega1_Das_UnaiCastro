@@ -97,7 +97,21 @@ class RegistarStatsFragment : Fragment() {
         val partido = Partido(spinnerResultado,nombre,etCompañero,etLugar)
         db.collection("partidos").add(partido).addOnSuccessListener {
             guardarPartidoenJugador(it.id)
+            val message="Se ha registrado el partido correcatmente. Has jugado con $etCompañero en $etLugar y habeis $spinnerResultado"
+            mostrarDailogo(message)
+        }.addOnFailureListener {e ->
+            mostrarDailogo(e.message)
         }
+    }
+
+    private fun mostrarDailogo(message: String?) {
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                // You can add any action you want when the user clicks OK
+                dialog.dismiss()
+            }
+        builder.create().show()
     }
 
     private fun guardarPartidoenJugador(id: String){
