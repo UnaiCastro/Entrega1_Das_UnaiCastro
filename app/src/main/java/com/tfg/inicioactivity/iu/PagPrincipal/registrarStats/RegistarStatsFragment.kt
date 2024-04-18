@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.databinding.FragmentRegistarStatsBinding
 import com.tfg.inicioactivity.iu.Inicio.IniciarSesionActivity
 import kotlinx.coroutines.launch
@@ -238,6 +240,11 @@ class RegistarStatsFragment : Fragment() {
         button.setOnClickListener {
             val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
             startActivity(intent)
+        }
+
+        val fabPerfil = binding.RegistrarStatsIrPerfil
+        fabPerfil!!.setOnClickListener {
+            findNavController().navigate(R.id.action_registarStatsFragment_to_perfilFragment)
         }
 
         btn_guardar.setOnClickListener {

@@ -1,8 +1,10 @@
 package com.tfg.inicioactivity.iu.PagPrincipal.info
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -35,8 +37,6 @@ class InformacionFragment : Fragment() {
     private var _binding: FragmentInformacionBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth:FirebaseAuth
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private lateinit var currentPhotoPath: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +69,6 @@ class InformacionFragment : Fragment() {
     }
 
     private fun initListener() {
-        hacerFoto()
         //Navegacion del CarView del why
         val cardViewWhyFragment = binding.informacionCvWhyapp
         cardViewWhyFragment.setOnClickListener {
@@ -144,90 +143,9 @@ class InformacionFragment : Fragment() {
         }
     }
 
-    private fun hacerFoto() {
-        val btnFoto = binding.informacionBoton
-        btnFoto!!.setOnClickListener{
-            Log.i("hacerFoto","EStoy dentro del listener")
-            dispatchTakePictureIntent()
-        }
-    }
-
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Manejar error al crear el archivo de imagen
-                    null
-                }
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "com.example.android.fileprovider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
-        }
-    }
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val file = File(currentPhotoPath)
-            val photoURI: Uri = Uri.fromFile(file)
-
-            // Guardar la foto en Firebase Firestore
-            guardarFotoEnFirestore(photoURI)
-        }
-    }
-
-    private fun guardarFotoEnFirestore(photoURI: Uri) {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        val storageRef = FirebaseStorage.getInstance().reference
-
-        val photoRef = storageRef.child("fotos/${photoURI.lastPathSegment}")
-        val uploadTask = photoRef.putFile(photoURI)
-
-        uploadTask.addOnSuccessListener {
-            // Foto subida exitosamente
-            // Obtener la URL de descarga de la foto
-            photoRef.downloadUrl.addOnSuccessListener { uri ->
-                // Guardar la URL en Firestore o realizar cualquier otra acción que necesites
-                val fotoUrl = uri.toString()
-                val userRef=db.collection("users").whereEqualTo("userId",auth.currentUser!!.uid).get().addOnSuccessListener {
-                    if (!it.isEmpty){
-                        val documentSnapshot = it.documents.first()
-                        documentSnapshot.reference.set(fotoUrl, SetOptions.merge())
-                    }
-                }
 
 
 
-            }.addOnFailureListener {
-                // Manejar el error al obtener la URL de descarga
-            }
-        }.addOnFailureListener {
-            // Manejar el error al subir la foto
-        }
-    }
 
 
 }

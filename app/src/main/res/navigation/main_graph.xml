@@ -21,7 +21,11 @@
         android:id="@+id/registarStatsFragment"
         android:name="com.tfg.inicioactivity.iu.PagPrincipal.registrarStats.RegistarStatsFragment"
         android:label="fragment_registar_stats"
-        tools:layout="@layout/fragment_registar_stats" />
+        tools:layout="@layout/fragment_registar_stats" >
+        <action
+            android:id="@+id/action_registarStatsFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+    </fragment>
     <fragment
         android:id="@+id/verStatsFragment"
         android:name="com.tfg.inicioactivity.iu.PagPrincipal.VerStats.VerStatsFragment"
@@ -37,4 +41,9 @@
         android:name="com.tfg.inicioactivity.iu.PagPrincipal.info.whyAppFragment"
         android:label="fragment_why_app"
         tools:layout="@layout/fragment_why_app" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.tfg.inicioactivity.iu.PagPrincipal.perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
 </navigation>
