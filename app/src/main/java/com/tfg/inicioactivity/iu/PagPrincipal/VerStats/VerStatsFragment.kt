@@ -121,6 +121,7 @@ class VerStatsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: VerStatsViewModel
     private lateinit var partidoAdapter: PartidosAdapter
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -151,7 +152,28 @@ class VerStatsFragment : Fragment() {
 
         viewModel.obtenerPartidos()
 
-        // Resto del código para el botón de cerrar sesión y el callback de retroceso
+        val button = binding.verStatsBtnCierreSesion
+        button.setOnClickListener {
+            // Crear un Intent para abrir LoginActivity
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            val intent = Intent(requireContext(), IniciarSesionActivity::class.java)
+
+            // Iniciar la actividad usando el Intent
+            startActivity(intent)
+        }
+
+        // Crear un callback para manejar la navegación hacia atrás en este fragmento
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Mostrar un Toast con el mensaje
+                Toast.makeText(requireContext(), "Por favor, cierre sesión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        // Agregar el callback al lifecycle owner del fragmento
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     // Resto del código del Fragment
