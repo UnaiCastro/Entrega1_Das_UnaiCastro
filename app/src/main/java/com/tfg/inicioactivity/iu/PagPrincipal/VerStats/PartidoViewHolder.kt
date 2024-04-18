@@ -1,6 +1,7 @@
 package com.tfg.inicioactivity.iu.PagPrincipal.VerStats
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tfg.inicioactivity.R
 import com.tfg.inicioactivity.data.model.Partido
@@ -11,7 +12,7 @@ class PartidoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { //
     private val binding = ItemPartidosBinding.bind(itemView)
 
     fun render(partido: Partido) {
-        binding.CVpartidoResultado.text = partido.resultado
+        /*binding.CVpartidoResultado.text = partido.resultado
         if (partido.resultado == "Victoria") {
             binding.CVpartidoResultado.setTextColor(binding.CVpartidoResultado.context.getColor(R.color.win))
         }
@@ -25,6 +26,18 @@ class PartidoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { //
         }
 
         binding.CVpartidoCompaEro.text = partido.nombreCompanero
-        binding.CVpartidoLugar.text = partido.lugar
+        binding.CVpartidoLugar.text = partido.lugar*/
+        with(binding) {
+            CVpartidoResultado.text = partido.resultado
+            if (partido.resultado == "Victoria") {
+                CVpartidoResultado.setTextColor(ContextCompat.getColor(itemView.context, R.color.win))
+            } else if (partido.resultado == "Derrota") {
+                CVpartidoResultado.setTextColor(ContextCompat.getColor(itemView.context, R.color.lose))
+            } else if (partido.resultado == "Empate") {
+                CVpartidoResultado.setTextColor(ContextCompat.getColor(itemView.context, R.color.draw))
+            }
+            CVpartidoCompaEro.text = partido.nombreCompanero
+            CVpartidoLugar.text = partido.lugar
+        }
     }
 }

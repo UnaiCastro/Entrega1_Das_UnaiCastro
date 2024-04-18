@@ -213,7 +213,25 @@ class RegistarStatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListener()
+        volverAtrasDenegar()
 
+    }
+
+    private fun volverAtrasDenegar() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Toast.makeText(
+                    requireContext(), "Por favor, cierre sesión",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun initListener() {
         val button = binding.registrarBtnCierreSesion
         val btn_guardar = binding.registrarStatsBtnGuardar
 
@@ -229,17 +247,6 @@ class RegistarStatsFragment : Fragment() {
 
             viewModel.guardarPartido(companero, lugar, resultado)
         }
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Toast.makeText(
-                    requireContext(), "Por favor, cierre sesión",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     override fun onDestroyView() {

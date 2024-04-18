@@ -9,6 +9,9 @@ import com.tfg.inicioactivity.data.model.Partido
 class PartidosAdapter(var partidos: MutableList<Partido>) :
     RecyclerView.Adapter<PartidoViewHolder>() {
     //  Adaptador para coger la informacion de la clase partido y printearla
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartidoViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_partidos, parent, false)
