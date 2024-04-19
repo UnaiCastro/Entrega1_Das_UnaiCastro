@@ -44,18 +44,24 @@ class PerfilFragment : Fragment() {
 
                 // Guardar la foto en Firebase Storage
                 val storage = FirebaseStorage.getInstance()
-                storageReference = storage.reference
+                storageReference = storage.getReference()
                 val imageRef = storageReference.child("images/${UUID.randomUUID()}.jpg")
+                println("Printeo imageREf$imageRef")
 
                 val baos = ByteArrayOutputStream()
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
                 val imageData = baos.toByteArray()
+                println("prineto imageData $imageData")
 
                 val uploadTask = imageRef.putBytes(imageData)
                 uploadTask.addOnSuccessListener { taskSnapshot ->
-                    val downloadUrl = taskSnapshot.metadata?.reference?.downloadUrl.toString()
-                    // Guardar la referencia de la foto en la base de datos de Firebase
-                    guardarReferenciaFirebase(downloadUrl)
+                    imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                        val imageUrl = downloadUrl.toString()
+                        Log.i("Url Descargada", imageUrl)
+
+                        // Guardar la referencia de la foto en Firestore
+                        guardarReferenciaFirebase(imageUrl)
+                    }
                 }.addOnFailureListener {
                     // Manejar cualquier error durante la carga de la imagen
                 }
