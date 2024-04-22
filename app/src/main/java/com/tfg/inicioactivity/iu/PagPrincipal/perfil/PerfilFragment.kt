@@ -1,5 +1,15 @@
 package com.tfg.inicioactivity.iu.PagPrincipal.perfil
 
+
+import android.Manifest
+import android.content.Context
+import android.provider.ContactsContract
+import android.util.Log
+import android.widget.Toast
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.google.firebase.messaging.FirebaseMessaging
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -15,17 +25,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import com.tfg.inicioactivity.FirebaseMessageService
+import com.tfg.inicioactivity.FirebaseNotificacion
 import com.tfg.inicioactivity.databinding.FragmentPerfilBinding
 import java.io.ByteArrayOutputStream
 import java.util.UUID
-import android.Manifest
-import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 
 class PerfilFragment : Fragment() {
 
@@ -58,6 +68,7 @@ class PerfilFragment : Fragment() {
                     imageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
                         val imageUrl = downloadUrl.toString()
                         Log.i("Url Descargada", imageUrl)
+                        enviarMensajeFirebase()
 
                         // Guardar la referencia de la foto en Firestore
                         guardarReferenciaFirebase(imageUrl)
@@ -67,6 +78,38 @@ class PerfilFragment : Fragment() {
                 }
             }
         }
+
+    private fun enviarMensajeFirebase() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("fcm", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            // Conseguir el token
+            val token = task.result
+
+            Log.d("fcm", "El token del dispositivo: $token")
+
+            val data = Data.Builder()
+                .putString("token", token)
+                .build()
+            val otwr = OneTimeWorkRequest.Builder(FirebaseNotificacion::class.java)
+                .setInputData(data)
+                .build()
+            context?.let { WorkManager.getInstance(it).enqueue(otwr) }
+            WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(otwr.id)
+                .observe(this) { workInfo ->
+                    if (workInfo != null && workInfo.state.isFinished) {
+                        val resultado = workInfo.outputData.getString("result")
+                        // Si el php devuelve que se ha identificado CORRECTAMENTE
+                        Log.d("fcm", "notificacionFirebase.php devuelve $resultado")
+                    }
+                }
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "Firebase upload failed", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
     override fun onCreateView(
@@ -171,11 +214,11 @@ class PerfilFragment : Fragment() {
     }
 
 
-    private fun guardarReferenciaFirebase(downloadUrl: String){
+    private fun guardarReferenciaFirebase(downloadUrl: String) {
 
         databaseReference = FirebaseFirestore.getInstance()
         val auth = FirebaseAuth.getInstance()
-        val userId= auth.currentUser!!.uid
+        val userId = auth.currentUser!!.uid
         val usuariosRef = databaseReference.collection("users")
 
         // Buscar el documento del usuario por su userId
@@ -183,7 +226,7 @@ class PerfilFragment : Fragment() {
             for (document in documents) {
                 // Actualizar el campo imagenPerfil con la URL de la imagen en Firebase Storage
                 document.reference.update("imagenPerfil", downloadUrl)
-                Log.i("GuardarImagen","Se ha guardado correcatmente")
+                Log.i("GuardarImagen", "Se ha guardado correcatmente")
             }
         }.addOnFailureListener { exception ->
             // Manejar el error al buscar el usuario
